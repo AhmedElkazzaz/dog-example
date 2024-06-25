@@ -28,18 +28,7 @@
                 }
             }
         },
-        {
-            "type": "grpc-interface",
-            "config": {
-                "src": "https://github.com/eclipse/kuksa.val.services/blob/v0.2.0/hvac_service/proto/sdv/edge/comfort/hvac/v1/hvac.proto",
-                "required": {
-                    "methods": [
-                        "SetAcStatus",
-                        "SetTemperature"
-                    ]
-                }
-            }
-        },
+       
         {
             "type": "pubsub",
             "config": {

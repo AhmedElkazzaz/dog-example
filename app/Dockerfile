@@ -20,28 +20,26 @@ ARG TARGETARCH
 
 # Install necessary dependencies
 RUN apt-get update && apt-get install -y \
+    build-essential \
     python3-dev \
-    gcc \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install grpcio-tools and other Python dependencies
-RUN pip3 install --no-cache-dir \
-    grpcio==1.64.1 \
-    grpcio-tools==1.64.1 \
-    protobuf==5.27.2 \
-    scons \
-    pyinstaller==5.9.0 \
-    patchelf==0.17.0.0 \
-    staticx \
-    && pip3 install --no-cache-dir -r /workspace/app/requirements.txt \
-    && pip3 install --no-cache-dir -r /workspace/app/requirements-links.txt
+# Install grpcio and grpcio-tools
+RUN pip3 install --no-cache-dir grpcio==1.64.1 grpcio-tools==1.64.1
+
+# Install protobuf and other tools
+RUN pip3 install --no-cache-dir protobuf==5.27.2 scons pyinstaller==5.9.0 patchelf==0.17.0.0 staticx
 
 # Copy necessary files into the workspace
 COPY ./.velocitas.json /workspace/.velocitas.json
 COPY ./app /workspace/app
 
 WORKDIR /workspace
+
+# Install Python requirements
+RUN pip3 install --no-cache-dir -r /workspace/app/requirements.txt
+RUN pip3 install --no-cache-dir -r /workspace/app/requirements-links.txt
 
 # Initialize velocitas (assuming this is necessary for your application)
 RUN velocitas init

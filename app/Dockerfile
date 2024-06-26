@@ -28,21 +28,6 @@ RUN apt-get update && apt-get install -y \
 # Install grpcio and grpcio-tools
 RUN pip3 install --no-cache-dir grpcio==1.64.1 grpcio-tools==1.64.1
 
-# Install protobuf
-RUN pip3 install --no-cache-dir protobuf==5.27.2
-
-# Install scons
-RUN pip3 install --no-cache-dir scons
-
-# Install pyinstaller
-RUN pip3 install --no-cache-dir pyinstaller==5.9.0
-
-# Install patchelf
-RUN pip3 install --no-cache-dir patchelf==0.17.0.0
-
-# Install staticx
-RUN pip3 install --no-cache-dir staticx
-
 # Copy necessary files into the workspace
 COPY ./.velocitas.json /workspace/.velocitas.json
 COPY ./app /workspace/app
@@ -55,6 +40,12 @@ RUN pip3 install --no-cache-dir -r /workspace/app/requirements-links.txt
 
 # Initialize velocitas (assuming this is necessary for your application)
 RUN velocitas init
+
+# Generate service SDK for hvac.proto
+RUN python3 -m grpc_tools.protoc -I/workspaces/dog-example/app/src/vehicle_model/proto \
+    --python_out=/workspace/app/generated \
+    --grpc_python_out=/workspace/app/generated \
+    /workspaces/dog-example/app/src/vehicle_model/proto/hvac.proto
 
 WORKDIR /workspace/app
 

@@ -32,7 +32,8 @@
 FROM --platform=$TARGETPLATFORM ghcr.io/eclipse-velocitas/devcontainer-base-images/python:v0.3 as builder
 ARG TARGETARCH
 
-RUN apt-get update && apt-get install -y python3-dev
+RUN apt-get update && apt-get install -y python3-dev \
+&& pip3 install grpcio-tools
 
 COPY ./.velocitas.json /workspace/.velocitas.json
 COPY ./app /workspace/app

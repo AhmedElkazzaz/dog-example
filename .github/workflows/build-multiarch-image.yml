@@ -78,4 +78,5 @@ jobs:
       - name: Generate gRPC code
         run: |
           wget -O hvac.proto https://raw.githubusercontent.com/eclipse/kuksa.val.services/v0.2.0/hvac_service/proto/sdv/edge/comfort/hvac/v1/hvac.proto
+          mkdir -p ./generated
           python -m grpc_tools.protoc -I. --python_out=./generated --grpc_python_out=./generated hvac.proto

@@ -28,8 +28,20 @@ RUN apt-get update && apt-get install -y \
 # Install grpcio and grpcio-tools
 RUN pip3 install --no-cache-dir grpcio==1.64.1 grpcio-tools==1.64.1
 
-# Install protobuf and other tools
-RUN pip3 install --no-cache-dir protobuf==5.27.2 scons pyinstaller==5.9.0 patchelf==0.17.0.0 staticx
+# Install protobuf
+RUN pip3 install --no-cache-dir protobuf==5.27.2
+
+# Install scons
+RUN pip3 install --no-cache-dir scons
+
+# Install pyinstaller
+RUN pip3 install --no-cache-dir pyinstaller==5.9.0
+
+# Install patchelf
+RUN pip3 install --no-cache-dir patchelf==0.17.0.0
+
+# Install staticx
+RUN pip3 install --no-cache-dir staticx
 
 # Copy necessary files into the workspace
 COPY ./.velocitas.json /workspace/.velocitas.json

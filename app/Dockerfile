@@ -31,7 +31,7 @@ RUN pip3 install --no-cache-dir grpcio==1.64.1 grpcio-tools==1.64.1
 # Copy necessary files into the workspace
 COPY ./.velocitas.json /workspace/.velocitas.json
 COPY ./app /workspace/app
-COPY ./workspaces/dog-example/app/src/vehicle_model/proto /workspace/proto
+COPY ./app/src/vehicle_model/proto /workspace/proto
 
 WORKDIR /workspace
 

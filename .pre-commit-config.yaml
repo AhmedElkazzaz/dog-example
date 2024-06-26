@@ -17,16 +17,30 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v4.4.0
     hooks:
       - id: trailing-whitespace
+        exclude: >
+          (?x)^(
+              .*_pb2.py|
+              .*_pb2.pyi|
+              .*_pb2_grpc.py
+          )$
       - id: end-of-file-fixer
+        exclude: >
+          (?x)^(
+              .*_pb2.py|
+              .*_pb2.pyi|
+              .*_pb2_grpc.py
+          )$
       - id: check-yaml
-        args: [--allow-multiple-documents]
       - id: check-added-large-files
         exclude: >
           (?x)^(
-          .*.log
+              .*_pb2.py|
+              .*_pb2.pyi|
+              .*_pb2_grpc.py|
+              .*.log
           )$
       - id: check-merge-conflict
 
@@ -34,14 +48,21 @@ repos:
     rev: v0.1.13
     hooks:
       - id: ruff
-        args: [--fix]
+        args: [--fix, --exclude, "*_pb2.py,*_pb2.pyi,*_pb2_grpc.py,*.log"]
       - id: ruff-format
+        args: [--exclude, "*_pb2.py,*_pb2.pyi,*_pb2_grpc.py,*.log"]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v1.8.0"
+    rev: v1.8.0
     hooks:
       - id: mypy
-        args: [app]
+        exclude: >
+          (?x)^(
+              .*_pb2.py|
+              .*_pb2.pyi|
+              .*_pb2_grpc.py
+          )$
+        args: [.]
         language: system
         pass_filenames: false
 
@@ -50,7 +71,12 @@ repos:
     hooks:
       - id: insert-license
         files: '.*\.(py|pyi|yaml|yml|sh|in)$'
-        exclude: .devcontainer/tests
+        exclude: >
+          (?x)^(
+              .*_pb2.py|
+              .*_pb2.pyi|
+              .*_pb2_grpc.py
+          )$
         args:
           - --license-filepath
           - license_header.txt
@@ -59,6 +85,17 @@ repos:
           - --use-current-year
           - --allow-past-years
           - --skip-license-insertion-comment=This file is maintained by velocitas CLI, do not modify manually.
+      - id: insert-license
+        files: '.*\.(proto)$'
+        args:
+          - --license-filepath
+          - license_header.txt
+          - --comment-style
+          - //
+          - --use-current-year
+          - --allow-past-years
+          - --skip-license-insertion-comment=This file is maintained by velocitas CLI, do not modify manually.
+          - --skip-license-insertion-comment=!/bin/bash
       - id: insert-license
         files: "Dockerfile.*"
         args:

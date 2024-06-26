@@ -1,4 +1,18 @@
-# Copyright (c) 2022-2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2024 Contributors to the Eclipse Foundation
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Copyright (c) 2022-2023 Robert Bosch GmbH and Microsoft Corporation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -13,6 +27,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 """A sample app to set the Dogmode on the Vehicle."""
+import os
+
+os.environ["HVACSERVICE_DAPR_APP_ID"] = "hvacservice"
 
 import asyncio
 import json
@@ -22,9 +39,9 @@ import signal
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from vehicle_model.sample import Vehicle, vehicle
 
-from velocitas_sdk.util.log import get_default_date_format, get_default_log_format
-from velocitas_sdk.vdb.subscriptions import DataPointReply
-from velocitas_sdk.vehicle_app import VehicleApp, subscribe_data_points
+from sdv.util.log import get_default_date_format, get_default_log_format
+from sdv.vdb.subscriptions import DataPointReply
+from sdv.vehicle_app import VehicleApp, subscribe_data_points
 
 logging.basicConfig(format=get_default_log_format(), datefmt=get_default_date_format())
 logging.getLogger().setLevel("INFO")

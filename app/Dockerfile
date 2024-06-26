@@ -59,11 +59,13 @@ RUN python3 -m grpc_tools.protoc \
     --grpc_python_out=/workspace/app/generated \
     ${PROTO_DIR}/hvac.proto
 
-# Ensure pyinstaller is installed correctly
-RUN pip3 install --no-cache-dir pyinstaller==5.9.0
+# Install necessary build tools
+RUN pip3 install --no-cache-dir pyinstaller==5.9.0 patchelf==0.17.0.0 staticx scons
 
-# Verify pyinstaller installation
+# Verify installations
 RUN pyinstaller --version
+RUN patchelf --version
+RUN staticx --version
 
 WORKDIR /workspace/app
 

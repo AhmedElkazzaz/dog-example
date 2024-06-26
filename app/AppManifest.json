@@ -32,6 +32,7 @@
             "type": "grpc-interface",
             "config": {
                 "src": "https://raw.githubusercontent.com/eclipse/kuksa.val.services/v0.2.0/hvac_service/proto/sdv/edge/comfort/hvac/v1/hvac.proto",
+               
                 "required": {
                     "methods": [
                         "SetAcStatus",

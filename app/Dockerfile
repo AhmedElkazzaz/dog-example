@@ -62,7 +62,11 @@ RUN python3 -m grpc_tools.protoc \
 # Install build tools one by one and check installation
 RUN pip3 install --no-cache-dir pyinstaller==5.9.0 && pyinstaller --version
 RUN pip3 install --no-cache-dir patchelf==0.17.0.0 && patchelf --version
-RUN pip3 install --no-cache-dir staticx && staticx --version
+
+# Debugging step for staticx installation
+RUN pip3 install --no-cache-dir staticx
+RUN staticx --version || echo "Staticx installation failed" && exit 1
+
 RUN pip3 install --no-cache-dir scons && scons --version
 
 WORKDIR /workspace/app

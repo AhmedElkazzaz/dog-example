@@ -31,6 +31,7 @@ RUN pip3 install --no-cache-dir grpcio==1.64.1 grpcio-tools==1.64.1
 # Copy necessary files into the workspace
 COPY ./.velocitas.json /workspace/.velocitas.json
 COPY ./app /workspace/app
+COPY ./workspaces/dog-example/app/src/vehicle_model/proto /workspace/proto
 
 WORKDIR /workspace
 
@@ -42,14 +43,14 @@ RUN pip3 install --no-cache-dir -r /workspace/app/requirements-links.txt
 RUN velocitas init
 
 # Debugging: Check directory contents
-RUN ls -l /workspaces/dog-example/app/src/vehicle_model/proto
+RUN ls -l /workspace/proto
 
 # Generate service SDK for hvac.proto
 RUN python3 -m grpc_tools.protoc \
-    -I/workspaces/dog-example/app/src/vehicle_model/proto \
+    -I/workspace/proto \
     --python_out=/workspace/app/generated \
     --grpc_python_out=/workspace/app/generated \
-    /workspaces/dog-example/app/src/vehicle_model/proto/hvac.proto
+    /workspace/proto/hvac.proto
 
 WORKDIR /workspace/app
 

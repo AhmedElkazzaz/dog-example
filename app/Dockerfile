@@ -28,12 +28,16 @@ RUN apt-get update && apt-get install -y \
 # Install grpcio and grpcio-tools
 RUN pip3 install --no-cache-dir grpcio==1.64.1 grpcio-tools==1.64.1
 
-# Copy necessary files into the workspace
+# Create necessary directories and copy files
+WORKDIR /workspace
 COPY ./.velocitas.json /workspace/.velocitas.json
 COPY ./app /workspace/app
-COPY ./app/src/vehicle_model/proto /workspace/proto
 
-WORKDIR /workspace
+# Check if the directory ./app/src/vehicle_model/proto exists
+RUN ls -l ./app/src/vehicle_model/proto
+
+# Copy proto files into the workspace
+COPY ./app/src/vehicle_model/proto /workspace/proto
 
 # Install Python requirements
 RUN pip3 install --no-cache-dir -r /workspace/app/requirements.txt
@@ -42,11 +46,11 @@ RUN pip3 install --no-cache-dir -r /workspace/app/requirements-links.txt
 # Initialize velocitas (assuming this is necessary for your application)
 RUN velocitas init
 
-# Debugging: Check directory contents
-RUN ls -l /workspace/proto
-
-# Generate service SDK for hvac.proto
+# Set environment variable for proto directory
 ENV PROTO_DIR=/workspace/proto
+
+# Create the generated directory
+RUN mkdir -p /workspace/app/generated
 
 # Generate service SDK for hvac.proto
 RUN python3 -m grpc_tools.protoc \

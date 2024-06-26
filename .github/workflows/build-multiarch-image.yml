@@ -1,3 +1,4 @@
+
 # This file is maintained by velocitas CLI, do not modify manually. Change settings in .velocitas.json
 # Copyright (c) 2022-2024 Contributors to the Eclipse Foundation
 #
@@ -57,26 +58,3 @@ jobs:
           delete-merged: true
           name: test-results-trivy
           pattern: test-results-*
-
-  generate-grpc-code:
-    runs-on: ubuntu-22.04
-    name: Generate gRPC Code
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Install grpcio-tools
-        run: |
-          python -m pip install --upgrade pip
-          pip install grpcio-tools
-
-      - name: Generate gRPC code
-        run: |
-          wget -O hvac.proto https://raw.githubusercontent.com/eclipse/kuksa.val.services/v0.2.0/hvac_service/proto/sdv/edge/comfort/hvac/v1/hvac.proto
-          mkdir -p ./generated
-          python -m grpc_tools.protoc -I. --python_out=./generated --grpc_python_out=./generated hvac.proto

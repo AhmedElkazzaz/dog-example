@@ -42,7 +42,8 @@ RUN pip3 install --no-cache-dir -r /workspace/app/requirements-links.txt
 RUN velocitas init
 
 # Generate service SDK for hvac.proto
-RUN python3 -m grpc_tools.protoc -I/workspaces/dog-example/app/src/vehicle_model/proto \
+RUN python3 -m grpc_tools.protoc \
+    -I/workspaces/dog-example/app/src/vehicle_model/proto \
     --python_out=/workspace/app/generated \
     --grpc_python_out=/workspace/app/generated \
     /workspaces/dog-example/app/src/vehicle_model/proto/hvac.proto

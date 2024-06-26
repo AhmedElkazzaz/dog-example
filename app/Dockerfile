@@ -59,13 +59,11 @@ RUN python3 -m grpc_tools.protoc \
     --grpc_python_out=/workspace/app/generated \
     ${PROTO_DIR}/hvac.proto
 
-# Install necessary build tools
-RUN pip3 install --no-cache-dir pyinstaller==5.9.0 patchelf==0.17.0.0 staticx scons
-
-# Verify installations
-RUN pyinstaller --version
-RUN patchelf --version
-RUN staticx --version
+# Install build tools one by one and check installation
+RUN pip3 install --no-cache-dir pyinstaller==5.9.0 && pyinstaller --version
+RUN pip3 install --no-cache-dir patchelf==0.17.0.0 && patchelf --version
+RUN pip3 install --no-cache-dir staticx && staticx --version
+RUN pip3 install --no-cache-dir scons && scons --version
 
 WORKDIR /workspace/app
 

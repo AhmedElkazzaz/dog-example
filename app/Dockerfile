@@ -58,8 +58,6 @@ RUN pip3 install --no-cache-dir pyinstaller==5.9.0 \
 
 WORKDIR /workspace
 
-RUN velocitas init
-
 ENV PROTO_DIR=/workspace/proto
 
 # Create the generated directory
@@ -71,6 +69,10 @@ RUN python3 -m grpc_tools.protoc \
     --python_out=/workspace/app/generated \
     --grpc_python_out=/workspace/app/generated \
     ${PROTO_DIR}/hvac.proto
+
+RUN velocitas init
+
+
 
 WORKDIR /workspace/app
 

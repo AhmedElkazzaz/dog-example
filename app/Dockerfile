@@ -41,6 +41,9 @@ RUN pip3 install --no-cache-dir -r /workspace/app/requirements-links.txt
 # Initialize velocitas (assuming this is necessary for your application)
 RUN velocitas init
 
+# Debugging: Check directory contents
+RUN ls -l /workspaces/dog-example/app/src/vehicle_model/proto
+
 # Generate service SDK for hvac.proto
 RUN python3 -m grpc_tools.protoc \
     -I/workspaces/dog-example/app/src/vehicle_model/proto \

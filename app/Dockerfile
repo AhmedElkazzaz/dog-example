@@ -46,11 +46,14 @@ RUN velocitas init
 RUN ls -l /workspace/proto
 
 # Generate service SDK for hvac.proto
+ENV PROTO_DIR=/workspace/proto
+
+# Generate service SDK for hvac.proto
 RUN python3 -m grpc_tools.protoc \
-    -I/workspace/proto \
+    -I${PROTO_DIR} \
     --python_out=/workspace/app/generated \
     --grpc_python_out=/workspace/app/generated \
-    /workspace/proto/hvac.proto
+    ${PROTO_DIR}/hvac.proto
 
 WORKDIR /workspace/app
 
